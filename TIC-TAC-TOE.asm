@@ -239,8 +239,6 @@ patrat_1:
 	
 	cmp con, 1
 	je litera_p1x
-	; cmp con, 1
-	; jne cifra_p10
 
 patrat_2:
 	mov EAX, [EBP+arg2]
@@ -257,9 +255,6 @@ patrat_2:
 	
 	cmp con, 1
 	je litera_p2x
-	; cmp con, 1
-	; jne cifra_p20
-
 	
 patrat_3:
 	mov EAX, [EBP+arg2]
@@ -276,8 +271,6 @@ patrat_3:
 	
 	cmp con, 1
 	je litera_p3x
-	; cmp con, 1
-	; jne cifra_p30
 	
 patrat_4:
 	mov EAX, [EBP+arg2]
@@ -294,8 +287,6 @@ patrat_4:
 	
 	cmp con, 1
 	je litera_p4x
-	; cmp con, 1
-	; jne cifra_p40
 	
 patrat_5:
 	mov EAX, [EBP+arg2]
@@ -312,8 +303,6 @@ patrat_5:
 	
 	cmp con, 1
 	je litera_p5x
-	; cmp con, 1
-	; jne cifra_p50
 	
 patrat_6:
 	mov EAX, [EBP+arg2]
@@ -330,8 +319,6 @@ patrat_6:
 	
 	cmp con, 1
 	je litera_p6x
-	; cmp con, 1
-	; jne cifra_p60
 	
 patrat_7:
 	mov EAX, [EBP+arg2]
@@ -348,8 +335,6 @@ patrat_7:
 	
 	cmp con, 1
 	je litera_p7x
-	; cmp con, 1
-	; jne cifra_p70
 	
 patrat_8:
 	mov EAX, [EBP+arg2]
@@ -366,8 +351,6 @@ patrat_8:
 	
 	cmp con, 1
 	je litera_p8x
-	; cmp con, 1
-	; jne cifra_p80
 	
 patrat_9:
 	mov EAX, [EBP+arg2]
@@ -384,8 +367,6 @@ patrat_9:
 	
 	cmp con, 1
 	je litera_p9x
-	; cmp con, 1
-	; jne cifra_p90
 	
 litera_p1x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 - 10
@@ -393,16 +374,7 @@ litera_p1x:
 		mov bx, 0
 		lea si, matrix
 		mov matrix[ebx], 1
-		jmp victorie
-
-
-; cifra_p10:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5, button_y + button_size / 2 - 10
-		; inc con
-		; mov bx, 0
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp afisare_litere
+		jmp ai
 	
 litera_p2x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 - 10
@@ -411,14 +383,6 @@ litera_p2x:
 		lea si, matrix
 		mov matrix[ebx], 1
 		jmp ai
-
-; cifra_p20:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 - 10
-		; inc con
-		; mov bx, 1
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
 		
 litera_p3x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 - 10
@@ -426,14 +390,6 @@ litera_p3x:
 		mov bx, 2
 		lea si, matrix
 		mov matrix[ebx], 1
-		jmp ai
-
-; cifra_p30:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 - 10
-		; inc con
-		; mov bx, 2
-		; lea si, matrix
-		; mov matrix[ebx], 0
 		jmp ai
 		
 litera_p4x:
@@ -443,14 +399,6 @@ litera_p4x:
 		lea si, matrix
 		mov matrix[ebx], 1
 		jmp ai
-	
-; cifra_p40:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5, button_y + button_size / 2  + button_size - 10
-		; inc con
-		; mov bx, 3
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
 		
 litera_p5x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + button_size - 10
@@ -460,14 +408,6 @@ litera_p5x:
 		mov matrix[ebx], 1
 		jmp ai
 		
-; cifra_p50:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + button_size - 10
-		; inc con
-		; mov bx, 4
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
-		
 litera_p6x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2+ button_size - 10
 		dec con
@@ -475,14 +415,6 @@ litera_p6x:
 		lea si, matrix
 		mov matrix[ebx], 1
 		jmp ai
-
-; cifra_p60:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 + button_size - 10
-		; inc con
-		; mov bx, 5
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
 
 litera_p7x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 + 2* button_size - 10
@@ -492,14 +424,6 @@ litera_p7x:
 		mov matrix[ebx], 1
 		jmp ai
 
-; cifra_p70:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5, button_y + button_size / 2  + 2* button_size - 10
-		; inc con
-		; mov bx, 6
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
-
 litera_p8x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + 2*button_size - 10
 		dec con
@@ -508,29 +432,12 @@ litera_p8x:
 		mov matrix[ebx], 1
 		jmp ai
 		
-; cifra_p80:
-		; make_text_macro '0', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + 2*button_size - 10
-		; inc con
-		; mov bx, 7
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
-		
 litera_p9x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2+ 2*button_size - 10
 		dec con
 		mov bx, 8
 		lea si, matrix
 		mov matrix[ebx], 1
-		jmp ai
-
-; cifra_p90:	
-		; make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 + 2*button_size - 10
-		; inc con
-		; mov bx, 8
-		; lea si, matrix
-		; mov matrix[ebx], 0
-		; jmp ai
 		
 ai:
 	mov ebx, 0
