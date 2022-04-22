@@ -6,5 +6,6 @@ The default branch contains a version in which you play against a basic AI, mean
 Features included in this project:
 - Scoreboard
 - Basic AI (just in the "versus Computer" branch)
+- Frames counter
 
 Time elapsed: around 18hrs
