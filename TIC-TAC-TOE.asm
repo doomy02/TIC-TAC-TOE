@@ -37,6 +37,7 @@ con1 db 1
 matrix db 2,2,2,2,2,2,2,2,2
 varx db 0
 var0 db 0
+game_mode_select db 0
 
 button_x EQU 100
 button_y EQU 50
@@ -224,18 +225,64 @@ draw proc
 	jmp afisare_litere
 	
 evt_click:
+	cmp game_mode_select, 0
+	je player_mode
+	
+	cmp game_mode_select, 1
+	je computer_mode
+	
+	cmp game_mode_select, 2
+	je player_mode
+	
+	cmp game_mode_select, 3
+	je computer_mode
+	
+	cmp game_mode_select, 4
+	je player_mode
+	
+	cmp game_mode_select, 5
+	je computer_mode
+	
+	cmp game_mode_select, 6
+	je player_mode
+	
+	cmp game_mode_select, 7
+	je computer_mode
+	
+	cmp game_mode_select, 8
+	je player_mode
+	
+	cmp game_mode_select, 9
+	je computer_mode
+		
+computer_mode:
+mode_c:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + 4*button_size
+	jle patrat_1
+	cmp EAX, button_x + 5*button_size
+	jge reset_button
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle patrat_1
+	cmp EAX, button_y+ 3*button_size
+	jge patrat_1
+	
+	inc game_mode_select
+	
 patrat_1:
 	mov EAX, [EBP+arg2]
 	cmp EAX, button_x
-	jl  button_fail
+	jle  button_fail
 	cmp EAX, button_x + button_size
-	jg patrat_2
+	jge patrat_2
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y
-	jl button_fail
+	jle button_fail
 	cmp EAX, button_y + button_size
-	jg patrat_4
+	jge patrat_4
 	
 	cmp con, 1
 	je litera_p1x
@@ -243,31 +290,31 @@ patrat_1:
 patrat_2:
 	mov EAX, [EBP+arg2]
 	cmp EAX, button_x + button_size
-	jl  button_fail
+	jle patrat_1
 	cmp EAX, button_x + 2*button_size
-	jg patrat_3
+	jge patrat_3
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y
-	jl button_fail
+	jle button_fail
 	cmp EAX, button_y + button_size
-	jg patrat_5
+	jge patrat_5
 	
 	cmp con, 1
 	je litera_p2x
 	
 patrat_3:
 	mov EAX, [EBP+arg2]
-	cmp EAX, button_x + button_size
-	jl  button_fail
+	cmp EAX, button_x + 2*button_size
+	jle patrat_2
 	cmp EAX, button_x + 3*button_size
-	jg button_fail
+	jge reset_button
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y
-	jl button_fail
+	jle button_fail
 	cmp EAX, button_y + button_size
-	jg patrat_6
+	jge patrat_6
 	
 	cmp con, 1
 	je litera_p3x
@@ -275,15 +322,15 @@ patrat_3:
 patrat_4:
 	mov EAX, [EBP+arg2]
 	cmp EAX, button_x
-	jl  button_fail
+	jle  button_fail
 	cmp EAX, button_x + button_size
-	jg patrat_5
+	jge patrat_5
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y + button_size
-	jl button_fail
+	jle patrat_1
 	cmp EAX, button_y + 2*button_size
-	jg patrat_7
+	jge patrat_7
 	
 	cmp con, 1
 	je litera_p4x
@@ -291,31 +338,31 @@ patrat_4:
 patrat_5:
 	mov EAX, [EBP+arg2]
 	cmp EAX, button_x + button_size
-	jl  button_fail
+	jle patrat_4
 	cmp EAX, button_x + 2*button_size
-	jg patrat_6
+	jge patrat_6
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y + button_size
-	jl button_fail
+	jle patrat_2
 	cmp EAX, button_y + 2*button_size
-	jg patrat_8
+	jge patrat_8
 	
 	cmp con, 1
 	je litera_p5x
 	
 patrat_6:
 	mov EAX, [EBP+arg2]
-	cmp EAX, button_x + button_size
-	jl  button_fail
+	cmp EAX, button_x + 2*button_size
+	jle patrat_5
 	cmp EAX, button_x + 3*button_size
-	jg patrat_7
+	jge reset_button
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y + button_size
-	jl button_fail
+	jle patrat_3
 	cmp EAX, button_y + 2*button_size
-	jg patrat_9
+	jge patrat_9
 	
 	cmp con, 1
 	je litera_p6x
@@ -323,15 +370,15 @@ patrat_6:
 patrat_7:
 	mov EAX, [EBP+arg2]
 	cmp EAX, button_x
-	jl  button_fail
+	jle  button_fail
 	cmp EAX, button_x + button_size
-	jg patrat_8
+	jge patrat_8
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y + 2*button_size
-	jl button_fail
+	jle patrat_4
 	cmp EAX, button_y + 3*button_size
-	jg button_fail
+	jge button_fail
 	
 	cmp con, 1
 	je litera_p7x
@@ -339,34 +386,49 @@ patrat_7:
 patrat_8:
 	mov EAX, [EBP+arg2]
 	cmp EAX, button_x + button_size
-	jl  button_fail
+	jle patrat_7
 	cmp EAX, button_x + 2*button_size
-	jg patrat_9
+	jge patrat_9
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y + 2*button_size
-	jl button_fail
+	jle patrat_5
 	cmp EAX, button_y + 3*button_size
-	jg button_fail
+	jge button_fail
 	
 	cmp con, 1
 	je litera_p8x
 	
 patrat_9:
 	mov EAX, [EBP+arg2]
-	cmp EAX, button_x + button_size
-	jl  button_fail
+	cmp EAX, button_x + 2*button_size
+	jle patrat_8
 	cmp EAX, button_x + 3*button_size
-	jg button_fail
+	jge button_fail
 	
 	mov EAX, [EBP+arg3]
 	cmp EAX, button_y + 2*button_size
-	jl button_fail
+	jle patrat_6
 	cmp EAX, button_y + 3*button_size
-	jg button_fail
+	jge button_fail
 	
 	cmp con, 1
 	je litera_p9x
+	
+reset_button:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + 5*button_size + 20
+	jle button_fail
+	cmp EAX, button_x + 6*button_size + 20
+	jge button_fail
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle button_fail
+	cmp EAX, button_y+ 3*button_size
+	jge button_fail
+	
+	jmp reset2
 	
 litera_p1x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 - 10
@@ -391,7 +453,7 @@ litera_p3x:
 		lea si, matrix
 		mov matrix[ebx], 1
 		jmp ai
-		
+
 litera_p4x:
 		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 + button_size - 10
 		dec con
@@ -438,6 +500,7 @@ litera_p9x:
 		mov bx, 8
 		lea si, matrix
 		mov matrix[ebx], 1
+		jmp ai
 		
 ai:
 	mov ebx, 0
@@ -538,6 +601,345 @@ ai:
 		make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 + 2*button_size - 10
 		jmp victorie
 	
+player_mode:
+mode_p:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + 4*button_size 
+	jle p_patrat_1
+	cmp EAX, button_x + 5*button_size
+	jge p_reset_button
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle p_patrat_1
+	cmp EAX, button_y+ 3*button_size
+	jge p_patrat_1
+	
+	inc game_mode_select
+	
+
+p_patrat_1:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x
+	jle button_fail
+	cmp EAX, button_x + button_size
+	jge p_patrat_2
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y
+	jle button_fail
+	cmp EAX, button_y + button_size
+	jge p_patrat_4
+	
+	cmp con, 1
+	je p_litera_p1x
+	cmp con, 1
+	jne p_cifra_p10
+
+p_patrat_2:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + button_size
+	jle p_patrat_1
+	cmp EAX, button_x + 2*button_size
+	jge p_patrat_3
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y
+	jle button_fail
+	cmp EAX, button_y + button_size
+	jge p_patrat_5
+	
+	cmp con, 1
+	je p_litera_p2x
+	cmp con, 1
+	jne p_cifra_p20
+
+	
+p_patrat_3:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + button_size
+	jle p_patrat_2
+	cmp EAX, button_x + 3*button_size
+	jge button_fail
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y
+	jle button_fail
+	cmp EAX, button_y + button_size
+	jge p_patrat_6
+	
+	cmp con, 1
+	je p_litera_p3x
+	cmp con, 1
+	jne p_cifra_p30
+	
+p_patrat_4:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x
+	jle button_fail
+	cmp EAX, button_x + button_size
+	jge p_patrat_5
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + button_size
+	jle p_patrat_1
+	cmp EAX, button_y + 2*button_size
+	jge p_patrat_7
+	
+	cmp con, 1
+	je p_litera_p4x
+	cmp con, 1
+	jne p_cifra_p40
+	
+p_patrat_5:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + button_size
+	jle p_patrat_4
+	cmp EAX, button_x + 2*button_size
+	jge p_patrat_6
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + button_size
+	jle p_patrat_2
+	cmp EAX, button_y + 2*button_size
+	jge p_patrat_8
+	
+	cmp con, 1
+	je p_litera_p5x
+	cmp con, 1
+	jne p_cifra_p50
+	
+p_patrat_6:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + button_size
+	jle p_patrat_5
+	cmp EAX, button_x + 3*button_size
+	jge button_fail
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + button_size
+	jle p_patrat_3
+	cmp EAX, button_y + 2*button_size
+	jge p_patrat_9
+	
+	cmp con, 1
+	je p_litera_p6x
+	cmp con, 1
+	jne p_cifra_p60
+	
+p_patrat_7:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x
+	jle button_fail
+	cmp EAX, button_x + button_size
+	jge p_patrat_8
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle p_patrat_4
+	cmp EAX, button_y + 3*button_size
+	jge button_fail
+	
+	cmp con, 1
+	je p_litera_p7x
+	cmp con, 1
+	jne p_cifra_p70
+	
+p_patrat_8:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + button_size
+	jle  button_fail
+	cmp EAX, button_x + 2*button_size
+	jge p_patrat_9
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle button_fail
+	cmp EAX, button_y + 3*button_size
+	jge button_fail
+	
+	cmp con, 1
+	je p_litera_p8x
+	cmp con, 1
+	jne p_cifra_p80
+	
+p_patrat_9:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + button_size
+	jle p_patrat_8
+	cmp EAX, button_x + 3*button_size
+	jge button_fail
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle p_patrat_6
+	cmp EAX, button_y + 3*button_size
+	jge button_fail
+	
+	cmp con, 1
+	je p_litera_p9x
+	cmp con, 1
+	jne p_cifra_p90
+
+p_reset_button:
+	mov EAX, [EBP+arg2]
+	cmp EAX, button_x + 5*button_size + 20
+	jle mode_p
+	cmp EAX, button_x + 6*button_size + 20
+	jge button_fail
+	
+	mov EAX, [EBP+arg3]
+	cmp EAX, button_y + 2*button_size
+	jle button_fail
+	cmp EAX, button_y+ 3*button_size
+	jge button_fail
+	
+	jmp reset2
+	
+p_litera_p1x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 - 10
+		dec con
+		mov bx, 0
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+
+
+p_cifra_p10:
+		make_text_macro '0', area, button_x + button_size / 2 - 5, button_y + button_size / 2 - 10
+		inc con
+		mov bx, 0
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp afisare_litere
+	
+p_litera_p2x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 - 10
+		dec con
+		mov bx, 1
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+
+p_cifra_p20:
+		make_text_macro '0', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 - 10
+		inc con
+		mov bx, 1
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+		
+p_litera_p3x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 - 10
+		dec con
+		mov bx, 2
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+
+p_cifra_p30:
+		make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 - 10
+		inc con
+		mov bx, 2
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+		
+p_litera_p4x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 + button_size - 10
+		dec con
+		mov bx, 3
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+	
+p_cifra_p40:
+		make_text_macro '0', area, button_x + button_size / 2 - 5, button_y + button_size / 2  + button_size - 10
+		inc con
+		mov bx, 3
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+		
+p_litera_p5x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + button_size - 10
+		dec con
+		mov bx, 4
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+		
+p_cifra_p50:
+		make_text_macro '0', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + button_size - 10
+		inc con
+		mov bx, 4
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+		
+p_litera_p6x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2+ button_size - 10
+		dec con
+		mov bx, 5
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+
+p_cifra_p60:
+		make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 + button_size - 10
+		inc con
+		mov bx, 5
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+
+p_litera_p7x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5, button_y + button_size / 2 + 2* button_size - 10
+		dec con
+		mov bx, 6
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+
+p_cifra_p70:
+		make_text_macro '0', area, button_x + button_size / 2 - 5, button_y + button_size / 2  + 2* button_size - 10
+		inc con
+		mov bx, 6
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+
+p_litera_p8x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + 2*button_size - 10
+		dec con
+		mov bx, 7
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+		
+p_cifra_p80:
+		make_text_macro '0', area, button_x + button_size / 2 - 5 + button_size, button_y + button_size / 2 + 2*button_size - 10
+		inc con
+		mov bx, 7
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
+		
+p_litera_p9x:
+		make_text_macro 'X', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2+ 2*button_size - 10
+		dec con
+		mov bx, 8
+		lea si, matrix
+		mov matrix[ebx], 1
+		jmp victorie
+
+p_cifra_p90:	
+		make_text_macro '0', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 + 2*button_size - 10
+		inc con
+		mov bx, 8
+		lea si, matrix
+		mov matrix[ebx], 0
+		jmp victorie
 		
 button_fail:
 	jmp afisare_litere
@@ -885,7 +1287,6 @@ victorie:
 		make_text_macro 'A', area, button_x + button_size + 50, 7*button_y
 		make_text_macro 'W', area, button_x + button_size + 60, 7*button_y
 		make_text_macro ' ', area, button_x + button_size + 70, 7*button_y
-		jmp reset2
 		
 	
 mesaj_final_X:
@@ -920,35 +1321,35 @@ mesaj_final_X:
 	
 	x1:
 		make_text_macro '1', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x2:
 		make_text_macro '2', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x3:
 		make_text_macro '3', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x4:
 		make_text_macro '4', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x5:
 		make_text_macro '5', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x6:
 		make_text_macro '6', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x7:
 		make_text_macro '7', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x8:
 		make_text_macro '8', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x9:
 		make_text_macro '9', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	x10:
 		make_text_macro '0', area, button_x+4*button_size + 15, button_y + 10 + button_size/2
 		mov varx, 0
-		jmp reset2
+		jmp soft_reset
 
  mesaj_final_0:
 	make_text_macro '0', area, button_x + button_size + 30, 7*button_y
@@ -982,34 +1383,35 @@ mesaj_final_X:
 	
 	zero1:
 		make_text_macro '1', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero2:
 		make_text_macro '2', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero3:
 		make_text_macro '3', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero4:
 		make_text_macro '4', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero5:
 		make_text_macro '5', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero6:
 		make_text_macro '6', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero7:
 		make_text_macro '7', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero8:
 		make_text_macro '8', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero9:
 		make_text_macro '9', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
-		jmp reset2
+		jmp soft_reset
 	zero10:
 		make_text_macro '0', area, button_x+4*button_size + 15 + button_size/2, button_y + 10 + button_size/2
 		mov var0, 0
+		jmp soft_reset
 				
 reset2:
 	make_text_macro ' ', area, button_x + button_size / 2 - 5, button_y + button_size / 2 - 10
@@ -1022,6 +1424,13 @@ reset2:
 	make_text_macro ' ', area, button_x + button_size / 2 + button_size- 5, button_y + button_size / 2 + 2*button_size - 10
 	make_text_macro ' ', area, button_x + button_size / 2 - 5 + 2* button_size, button_y + button_size / 2 + 2*button_size- 10
 	
+	make_text_macro ' ', area, button_x + button_size + 30, 7*button_y
+	make_text_macro ' ', area, button_x + button_size + 40, 7*button_y
+	make_text_macro ' ', area, button_x + button_size + 50, 7*button_y
+	make_text_macro ' ', area, button_x + button_size + 60, 7*button_y
+	make_text_macro ' ', area, button_x + button_size + 70, 7*button_y
+
+soft_reset:
 	mov ebx, 0
 	lea esi, matrix
 	mov matrix[ebx], 2
@@ -1059,25 +1468,6 @@ reset2:
 	mov matrix[ebx], 2
 	
 afisare_litere:
-	;afisam valoarea counter-ului curent (sute, zeci si unitati)
-	mov ebx, 10
-	mov eax, counter
-	;cifra unitatilor
-	mov edx, 0
-	div ebx
-	add edx, '0'
-	make_text_macro edx, area, 30, 10
-	;cifra zecilor
-	mov edx, 0
-	div ebx
-	add edx, '0'
-	make_text_macro edx, area, 20, 10
-	;cifra sutelor
-	mov edx, 0
-	div ebx
-	add edx, '0'
-	make_text_macro edx, area, 10, 10
-	
 	;titlu proiect assembly(TIC TAC TOE)
 	make_text_macro 'T', area, button_x + button_size/2 + 30, button_y/2
 	make_text_macro 'I', area, button_x + button_size/2 + 40, button_y/2
@@ -1117,7 +1507,64 @@ afisare_litere:
 	make_text_macro 'X', area, button_x+4*button_size + 15, button_y + 10
 	make_text_macro '0', area, button_x+4*button_size + 15 + button_size/2, button_y + 10
 	
-
+	;reset button
+	line_horizontal button_x+5*button_size + 20, button_y + 2*button_size, button_size, 0 
+	line_horizontal	button_x+5*button_size + 20, button_y+3*button_size, button_size, 0 
+	line_vertical button_x+5*button_size + 20, button_y+2*button_size, button_size, 0
+	line_vertical button_x+6*button_size + 20, button_y+2*button_size, button_size, 0 
+	make_text_macro 'R', area, button_x+5*button_size + 35, button_y + 2* button_size + 10 - button_size/2
+	make_text_macro 'E', area, button_x+5*button_size + 45, button_y + 2* button_size + 10 - button_size/2
+	make_text_macro 'S', area, button_x+5*button_size + 55, button_y + 2 * button_size + 10 - button_size/2
+	make_text_macro 'E', area, button_x+5*button_size + 65, button_y + 2 * button_size + 10 - button_size/2
+	make_text_macro 'T', area, button_x+5*button_size + 75, button_y + 2 * button_size + 10 - button_size/2
+	make_text_macro 'R', area, button_x+5*button_size + 55, button_y + 2 * button_size + button_size - 10 - button_size/2
+	
+	;game mode
+	line_horizontal button_x+4*button_size, button_y+2*button_size, button_size, 0 
+	line_horizontal	button_x+4*button_size, button_y+3*button_size, button_size, 0 
+	line_vertical button_x+4*button_size, button_y+2*button_size, button_size, 0
+	line_vertical button_x+4*button_size + button_size, button_y+2*button_size, button_size, 0
+	make_text_macro 'M', area, button_x+4*button_size + 20, button_y + 2* button_size + 10 - button_size/2
+	make_text_macro 'O', area, button_x+4*button_size + 30, button_y + 2* button_size + 10 - button_size/2
+	make_text_macro 'D', area, button_x+4*button_size + 40, button_y + 2 * button_size + 10 - button_size/2
+	make_text_macro 'E', area, button_x+4*button_size + 50, button_y + 2 * button_size + 10 - button_size/2
+	make_text_macro 'M', area, button_x+4*button_size + 35, button_y + 3 * button_size - 10 - button_size/2
+	
+	;instructiuni
+	make_text_macro 'M', area, button_x + 20, button_y + 4 * button_size + 10
+	make_text_macro 'O', area, button_x + 30, button_y + 4 * button_size + 10
+	make_text_macro 'D', area, button_x + 40, button_y + 4 * button_size + 10
+	make_text_macro 'E', area, button_x + 50, button_y + 4 * button_size + 10
+	make_text_macro '0', area, button_x + 60, button_y + 4 * button_size + 10
+	make_text_macro 'P', area, button_x + 80, button_y + 4 * button_size + 10
+	make_text_macro 'L', area, button_x + 90, button_y + 4 * button_size + 10
+	make_text_macro 'A', area, button_x + 100, button_y + 4 * button_size + 10
+	make_text_macro 'Y', area, button_x + 110, button_y + 4 * button_size + 10
+	make_text_macro 'E', area, button_x + 120, button_y + 4 * button_size + 10
+	make_text_macro 'L', area, button_x + 130, button_y + 4 * button_size + 10
+	make_text_macro 'D', area, button_x + 150, button_y + 4 * button_size + 10
+	make_text_macro 'E', area, button_x + 160, button_y + 4 * button_size + 10
+	make_text_macro 'F', area, button_x + 170, button_y + 4 * button_size + 10
+	make_text_macro 'A', area, button_x + 180, button_y + 4 * button_size + 10
+	make_text_macro 'U', area, button_x + 190, button_y + 4 * button_size + 10
+	make_text_macro 'L', area, button_x + 200, button_y + 4 * button_size + 10
+	make_text_macro 'T', area, button_x + 210, button_y + 4 * button_size + 10
+	
+	make_text_macro 'M', area, button_x + 20, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'O', area, button_x + 30, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'D', area, button_x + 40, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'E', area, button_x + 50, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro '1', area, button_x + 60, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'C', area, button_x + 80, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'O', area, button_x + 90, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'M', area, button_x + 100, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'P', area, button_x + 110, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'U', area, button_x + 120, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'T', area, button_x + 130, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'E', area, button_x + 140, button_y + 4 * button_size + button_size / 2 + 10
+	make_text_macro 'R', area, button_x + 150, button_y + 4 * button_size + button_size / 2 + 10
+	
+	
 final_draw:
 	popa
 	mov esp, ebp
@@ -1135,9 +1582,7 @@ start:
 	call malloc
 	add esp, 4
 	mov area, eax
-	;apelam functia de desenare a ferestrei
-	; typedef void (*DrawFunc)(int evt, int x, int y);
-	; void __cdecl BeginDrawing(const char *title, int width, int height, unsigned int *area, DrawFunc draw);
+	
 	push offset draw
 	push area
 	push area_height
