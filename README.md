@@ -9,5 +9,3 @@ Features included in this project:
 - Basic AI (just in the "versus Computer" and "Game Modes" branches)
 - Reset button
 - Game mode button
-
-Time elapsed: around 20hrs
